@@ -4,10 +4,15 @@ import { TranscriptSubmit } from './components/TranscriptSubmit.tsx'
 import { TranscriptViewer } from './components/TranscriptViewer.tsx'
 import { FeedbackForm } from './components/FeedbackForm.tsx'
 
+interface ReasoningItem {
+  reasoning_text: string;
+  citations: string[];
+}
+
 type ClassificationResult = {
   transcriptId: string
   classification: string
-  reasoning: string
+  reasoning: ReasoningItem[]
 }
 
 function App() {
@@ -33,11 +38,13 @@ function App() {
       if (!res.ok) {
         throw new Error(`Request failed with status ${res.status}`)
       }
+      console.log("printing data now")
+      console.log(data)
 
       setResult({
         transcriptId: data.transcriptId ?? '',
         classification: data.classification ?? '',
-        reasoning: data.reasoning ?? ''
+        reasoning: data.reasoning ?? []
       })
     } catch (err) {
       try {
@@ -76,7 +83,7 @@ function App() {
 
         <TranscriptViewer
           transcript={transcript}
-          reasoning={result?.reasoning ?? ''}
+          reasoning={result?.reasoning ?? []}
           classification={result?.classification ?? ''}
         />
 

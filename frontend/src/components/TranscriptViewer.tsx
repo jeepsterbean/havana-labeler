@@ -2,11 +2,17 @@
 import { memo } from 'react'
 import { useState } from 'react'
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card'
+import type React from 'react'
+
+interface ReasoningItem {
+  reasoning_text: string;
+  citations: string[];
+}
 
 export type TranscriptViewerProps = {
-  transcript: string
-  reasoning: string
-  classification: string
+  transcript: string;
+  classification: string;
+  reasoning: ReasoningItem[];
 }
 
 /**
@@ -39,7 +45,7 @@ export const TranscriptViewer = memo(function TranscriptViewer({
     highlights.sort((a, b) => a.start - b.start);
 
     // Build the highlighted text
-    const parts: JSX.Element[] = [];
+    const parts: React.JSX.Element[] = [];
     let lastEnd = 0;
 
     highlights.forEach((highlight, idx) => {

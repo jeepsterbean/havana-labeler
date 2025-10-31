@@ -3,11 +3,6 @@ import cors from "cors";
 import OpenAI from "openai";
 import "dotenv/config";
 
-const corsHeaders = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  };
-
 const app = express();
 const PORT = process.env.PORT || 5001;
 
@@ -17,6 +12,17 @@ const openai = new OpenAI({
 
 app.use(cors());
 app.use(express.json());
+
+type ReasoningItem = {
+  reasoning_text: string;
+  citations: string[];
+};
+
+type ClassificationResult = {
+  transcriptId: string;
+  classification: string;
+  reasoning: ReasoningItem[];
+};
 
 app.post("/classify-transcript", async (req: Request, res: Response) => {
   const { transcript } = req.body;
@@ -99,23 +105,23 @@ app.post("/classify-transcript", async (req: Request, res: Response) => {
     console.log(JSON.stringify(response.choices[0].message, null, 2));
 
     const choice = response.choices[0];
-    const toolCall = choice.message.tool_calls?.[0];
-    
+    const toolCall = choice.message.tool_calls?.[0];   
     let classificationResult: Partial<ClassificationResult> = {};
-    
     if (toolCall?.function?.arguments) {
       const args = JSON.parse(toolCall.function.arguments);
-    
+      
       classificationResult = {
         transcriptId: crypto.randomUUID(), // or pass one from req.body if you have it
         classification: args.classification,
-        reasoning: args.reasoning.map((r: any) => `${r.reasoning_text} (cited: ${r.citations.join(", ")})`).join(" "),
+        reasoning: args.reasoning as ReasoningItem[],
       };
+
+
     } else {
       classificationResult = {
         transcriptId: crypto.randomUUID(),
-        classification: "voice_unknown",
-        reasoning: "No classification returned by model.",
+        classification: "no classification",
+        reasoning: [],
       };
     }
     
