@@ -57,31 +57,44 @@ function App() {
   }, [transcript, result])
 
   return (
-    <div style={{ maxWidth: 960, margin: '0 auto', padding: 16 }}>
-      <TranscriptSubmit
-        transcript={transcript}
-        loading={loading}
-        error={error}
-        onChange={setTranscript}
-        onSubmit={handleSubmit}
-      />
-
-      <div style={{ marginTop: 24 }}>
-        <div style={{ fontSize: 12, color: '#666' }}>Classification</div>
-        <div style={{ fontSize: 18, fontWeight: 600, minHeight: 28 }}>
-          {result?.classification ?? ''}
+    <div className="min-h-screen bg-gray-50">
+      <header className="border-b bg-white">
+        <div className="max-w-4xl mx-auto px-6 py-4">
+          <h1 className="text-lg font-semibold text-gray-900">Transcript Classifier</h1>
         </div>
-      </div>
+      </header>
+      <main className="max-w-4xl mx-auto p-6 space-y-6">
+        <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+          <TranscriptSubmit
+            transcript={transcript}
+            loading={loading}
+            error={error}
+            onChange={setTranscript}
+            onSubmit={handleSubmit}
+          />
+        </div>
 
-      <TranscriptViewer
-        transcript={transcript}
-        reasoning={result?.reasoning ?? ''}
-      />
+        <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+          <div className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">Classification</div>
+          {result?.classification ? (
+            <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-200">
+              {result.classification}
+            </span>
+          ) : (
+            <div className="h-7" />
+          )}
+        </div>
 
-      <FeedbackForm
-        enabled={!!result}
-        onFeedback={handleFeedback}
-      />
+        <TranscriptViewer
+          transcript={transcript}
+          reasoning={result?.reasoning ?? ''}
+        />
+
+        <FeedbackForm
+          enabled={!!result}
+          onFeedback={handleFeedback}
+        />
+      </main>
     </div>
   )
 }

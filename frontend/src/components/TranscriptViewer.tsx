@@ -14,34 +14,14 @@ export const TranscriptViewer = memo(function TranscriptViewer({
   reasoning
 }: TranscriptViewerProps) {
   return (
-    <div style={{ display: 'flex', gap: 16, marginTop: 16 }}>
-      <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 12, color: '#666' }}>Input Transcript</div>
-        <div
-          style={{
-            border: '1px solid #e0e0e0',
-            borderRadius: 8,
-            padding: 12,
-            minHeight: 120,
-            whiteSpace: 'pre-wrap'
-          }}
-        >
-          {transcript}
-        </div>
+    <div className="grid gap-4 md:grid-cols-2">
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">Input Transcript</div>
+        <div className="min-h-[120px] whitespace-pre-wrap text-gray-800">{transcript}</div>
       </div>
-      <div style={{ flex: 1 }}>
-        <div style={{ fontSize: 12, color: '#666' }}>Reasoning</div>
-        <div
-          style={{
-            border: '1px solid #e0e0e0',
-            borderRadius: 8,
-            padding: 12,
-            minHeight: 120,
-            whiteSpace: 'pre-wrap'
-          }}
-        >
-          {reasoning}
-        </div>
+      <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">Reasoning</div>
+        <div className="min-h-[120px] whitespace-pre-wrap text-gray-800">{reasoning}</div>
       </div>
     </div>
   )

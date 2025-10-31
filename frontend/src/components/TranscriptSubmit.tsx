@@ -20,26 +20,30 @@ export const TranscriptSubmit = memo(function TranscriptSubmit({
   onSubmit
 }: TranscriptSubmitProps) {
   return (
-    <form onSubmit={onSubmit} style={{ display: 'grid', gap: 8 }}>
-      <label htmlFor="transcript"><strong>Transcript</strong></label>
+    <form onSubmit={onSubmit} className="grid gap-3">
+      <label htmlFor="transcript" className="text-sm font-medium text-gray-900">Transcript</label>
       <textarea
         id="transcript"
         value={transcript}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Paste transcript here…"
         rows={8}
-        style={{ width: '100%', fontFamily: 'inherit', fontSize: 14 }}
+        className="w-full rounded-md border border-gray-300 bg-white p-3 text-sm shadow-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         required
         aria-invalid={!!error}
         aria-describedby={error ? 'transcript-error' : undefined}
       />
       <div>
-        <button type="submit" disabled={loading || !transcript.trim()}>
+        <button
+          type="submit"
+          disabled={loading || !transcript.trim()}
+          className="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
           {loading ? 'Submitting…' : 'Submit'}
         </button>
       </div>
       {error && (
-        <div id="transcript-error" style={{ color: 'red' }}>
+        <div id="transcript-error" className="text-sm text-red-600">
           Error: {error}
         </div>
       )}
