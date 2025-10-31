@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
 import './App.css'
-import { TranscriptSubmit } from './components/TranscriptSubmit'
-import { TranscriptViewer } from './components/TranscriptViewer'
-import { FeedbackForm } from './components/FeedbackForm'
+import { TranscriptSubmit } from './components/TranscriptSubmit.tsx'
+import { TranscriptViewer } from './components/TranscriptViewer.tsx'
+import { FeedbackForm } from './components/FeedbackForm.tsx'
 
 type ClassificationResult = {
   transcriptId: string
@@ -74,20 +74,10 @@ function App() {
           />
         </div>
 
-        <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
-          <div className="mb-2 text-xs font-medium uppercase tracking-wide text-gray-500">Classification</div>
-          {result?.classification ? (
-            <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-200">
-              {result.classification}
-            </span>
-          ) : (
-            <div className="h-7" />
-          )}
-        </div>
-
         <TranscriptViewer
           transcript={transcript}
           reasoning={result?.reasoning ?? ''}
+          classification={result?.classification ?? ''}
         />
 
         <FeedbackForm
